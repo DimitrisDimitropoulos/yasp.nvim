@@ -1,0 +1,127 @@
+==============================================================================
+Introduction to yasp                                         *yasp.Introduction*
+
+yasp is a simple way to manage your snippets in a completion engine agnostic
+way. Thus it enables you to use jump around completion frameworks with ease,
+even native autocompletion for the nightly users. The plugin is designed to
+manage multiple snippet sources such as friendly-snippets and use defined.
+It shall be noted that yasp manages only LSP/vscode/json snippets, therefore
+fancy lua snippets are not supported. At last, you must configure some basic
+functionality for yourself, mainly the package.json paths
+
+The package.json files are the indexes which direct yasp to pick the right
+snippets.json for the according filetype. For examples you can refer to these:
+
+  - https://github.com/rafamadriz/friendly-snippets/blob/main/package.json
+  - https://github.com/DimitrisDimitropoulos/nvim/blob/main/snippets/json_snippets/package.json
+
+Generally, if have ever used json snippets with a package.json for plugins
+like luasnip it is very likely that it will continue to work.
+
+==============================================================================
+Table of Contents                                                *yasp.contents*
+
+Introduction to yasp ······································· |yasp.Introduction|
+Settings for yasp ·············································· |yasp.settings|
+Health check module for yasp ····································· |yasp.health|
+Utility functions for handling snippets ························· |yasp.snippet|
+
+==============================================================================
+Settings for yasp                                                *yasp.settings*
+
+yasp.Settings                                                    *yasp.Settings*
+    Setting available for yasp
+
+    Fields: ~
+        {paths}  (string[])  Paths of the package.json files to check
+        {descs}  (string[])  List of descriptions to describe each package.json file
+        {prose}  (boolean)   If true, messages will be made describing the usage of the server and checkhealth will return the snippets for all active buffer filetypes
+
+
+The default settings for yasp
+>lua
+ require('yasp').setup({
+  paths = {},
+  descs = {},
+  prose = false,
+ })
+<
+
+Therefore paths must be explicitly set to the package.json files to check
+for the appropriate files. It is recommended to set the paths leveraging
+vim's vim.fn and not absolute paths. For example, in order to use
+friendly-snippets installed by lazy.nvim, you can use:
+>lua
+ vim.fn.stdpath 'data' .. '/lazy/friendly-snippets/package.json',
+<
+Moreover, to use snippets from the user's nvim configuration, you can use,
+something along the lines of:
+>lua
+ vim.fn.expand('$MYVIMRC'):match '(.*[/\\])' .. 'path/to/package.json',
+<
+
+==============================================================================
+Health check module for yasp                                       *yasp.health*
+
+Health checks at the moment are rudimentary. They check primarily the
+validity of the package.jsons. As an added bonus, if prose is enabled there
+is some basic checking for the snippets that are assigned to the opened
+buffers, mainly for debugging purposes.
+
+==============================================================================
+Utility functions for handling snippets                           *yasp.snippet*
+
+This part is mainly for user who are eager to tinker with in-process LSPs
+and mess with own sources etc. Please not that breaking changes will happen
+to this part and may not be well communicated to end users.
+Proceed with caution.
+
+yasp.CompTable                                                  *yasp.CompTable*
+    A table containing completion results formatted for LSP
+
+    Type: ~
+        table
+
+
+M.concat_all({paths}, {ft}, {descs})                              *M.concat_all*
+    Concatenates all the snippets from all the given paths into a single source.
+    The simplest way to create a completion table source.
+
+    Parameters: ~
+        {paths}  (string[])  List of paths to the pkg.json files
+        {ft}     (string)    The filetype
+        {descs}  (string[])  A table of descriptions for each path
+
+    Returns: ~
+        (yasp.CompTable)  A table containing completion results formatted for LSP
+
+    See: ~
+        |yasp.CompTable|
+
+
+M.start_mock_lsp({completion_source})                         *M.start_mock_lsp*
+    Start a mock LSP server with the given completion source. The id of the
+    client may not be that useful
+
+    Parameters: ~
+        {completion_source}  (yasp.CompTable)  The completion source to be used by the mock
+
+    Returns: ~
+        (integer)  The ID of the client that was started
+
+    See: ~
+        |yasp.CompTable|
+
+
+                                                             *M.snippet_handler*
+M.snippet_handler({paths}, {ft}, {descs})
+    Create a callback to handle the destruction of the previous LSP client and
+    the creation of a new one. Basically a wrapper for usage with autocmds
+
+    Parameters: ~
+        {paths}  (string[])  List of paths to the JSON snippet files
+        {ft}     (string)    Filetype of the current buffer
+        {descs}  (string[])  List of descriptions for the snippet sources
+
+
+vim:tw=78:ts=8:noet:ft=help:norl:
