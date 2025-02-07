@@ -213,7 +213,7 @@ function M.snippet_handler(paths, ft, descs)
         vim.notify('Started new sn_ls client with ' .. client_id .. ' for ' .. ft, vim.log.levels.INFO)
       end
     end
-  end, 750)
+  end, require('yasp.settings').current.debounce)
 end
 
 return M
