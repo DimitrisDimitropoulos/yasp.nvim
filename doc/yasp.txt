@@ -33,15 +33,17 @@ yasp.Settings                                                    *yasp.Settings*
     Setting available for yasp
 
     Fields: ~
-        {debounce}  (integer)   Delay in milliseconds to wait before starting the new server after killing the previous
-        {paths}     (string[])  Paths of the package.json files to check
-        {descs}     (string[])  List of descriptions to describe each package.json file
-        {prose}     (boolean)   If true, messages will be made describing the usage of the server and checkhealth will return the snippets for all active buffer filetypes
+        {debounce}   (integer)   Delay in milliseconds to wait before starting the new server after killing the previous
+        {long_desc}  (boolean)   If true the snippet description will be shown in the completion menu
+        {paths}      (string[])  Paths of the package.json files to check
+        {descs}      (string[])  List of descriptions to describe each package.json file
+        {prose}      (boolean)   If true, messages will be made describing the usage of the server and checkhealth will return the snippets for all active buffer filetypes
 
 
 The default settings for yasp
 >lua
  require('yasp').setup({
+  long_desc = false,
   debounce = 750,
   paths = {},
   descs = {},

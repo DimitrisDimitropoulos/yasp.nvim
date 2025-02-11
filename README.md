@@ -27,6 +27,8 @@ has to specify some options in order to use it:
     -- if you persist on lazy loading you must call the setup function on InsertEnter
     -- event = 'InsertEnter',
     opts = {
+      -- default, change to false for special completion frameworks
+      -- long_desc = true,
       -- default, change to true mainly for debugging
       -- prose = false,
       -- default, the time to wait before starting a new server in milliseconds, highly suggested to keep it

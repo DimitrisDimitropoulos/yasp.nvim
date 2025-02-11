@@ -80,13 +80,14 @@ local function process_snippets(snips, desc)
     -- Add each prefix-body pair to the table
     for _, prefix in ipairs(prefixes) do
       snippets_table[prefix] = body
-      snippet_descs[prefix] = v.description
+      snippet_descs[prefix] = v.description or '-'
     end
   end
   -- Transform the snippets_table into completion_results
   for label, insertText in pairs(snippets_table) do
+    local long_desc = require('yasp.settings').current.long_desc
     table.insert(completion_results.items, {
-      detail = tostring(desc) .. '|' .. tostring(snippet_descs[label] or 'User Snippet'),
+      detail = tostring(desc) .. (long_desc and ('|' .. tostring(snippet_descs[label])) or ''),
       label = label,
       kind = vim.lsp.protocol.CompletionItemKind['Snippet'],
       documentation = {

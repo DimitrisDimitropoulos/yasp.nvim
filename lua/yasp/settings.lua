@@ -28,6 +28,7 @@ local M = {}
 ---Setting available for yasp
 ---@class yasp.Settings
 ---@field debounce integer Delay in milliseconds to wait before starting the new server after killing the previous
+---@field long_desc boolean If true the snippet description will be shown in the completion menu
 ---@field paths string[] Paths of the package.json files to check
 ---@field descs string[] List of descriptions to describe each package.json file
 ---@field prose boolean If true, messages will be made describing the usage of the server and checkhealth will return the snippets for all active buffer filetypes
@@ -36,6 +37,7 @@ local M = {}
 ---The default settings for yasp
 --->lua
 --- require('yasp').setup({
+---  long_desc = false,
 ---  debounce = 750,
 ---  paths = {},
 ---  descs = {},
@@ -59,6 +61,7 @@ local M = {}
 
 ---@type yasp.Settings
 local _default = {
+  long_desc = true,
   debounce = 750,
   paths = {},
   descs = {},
