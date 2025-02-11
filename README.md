@@ -33,6 +33,12 @@ has to specify some options in order to use it:
       -- prose = false,
       -- default, the time to wait before starting a new server in milliseconds, highly suggested to keep it
       -- debounce = 750,
+      -- default, global triggerChars to fire lsp completion
+      -- trigger_chars = {
+      --   ['*'] = { '{', '(', '[', ' ', '.', ':', ',' },
+      --   -- append them per filetype in such style
+      --   -- ['lua'] = { '.', ':' },
+      -- },
 
       -- 💀 WARNING: the following must be provided by the user
       -- the paths to the package.json files, no default given, must be provided

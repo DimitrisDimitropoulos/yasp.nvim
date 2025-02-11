@@ -32,11 +32,15 @@ local M = {}
 ---@field paths string[] Paths of the package.json files to check
 ---@field descs string[] List of descriptions to describe each package.json file
 ---@field prose boolean If true, messages will be made describing the usage of the server and checkhealth will return the snippets for all active buffer filetypes
+---@field trigger_chars table<string, string[]> Mapping of filetypes to trigger characters (use '*' for default).
 
 ---@brief [[
 ---The default settings for yasp
 --->lua
 --- require('yasp').setup({
+---  trigger_chars = {
+---    ['*'] = { '{', '(', '[', ' ', '.', ':', ',' },
+---  },
 ---  long_desc = false,
 ---  debounce = 750,
 ---  paths = {},
@@ -61,6 +65,9 @@ local M = {}
 
 ---@type yasp.Settings
 local _default = {
+  trigger_chars = {
+    ['*'] = { '{', '(', '[', ' ', '.', ':', ',' },
+  },
   long_desc = true,
   debounce = 750,
   paths = {},

@@ -33,16 +33,20 @@ yasp.Settings                                                    *yasp.Settings*
     Setting available for yasp
 
     Fields: ~
-        {debounce}   (integer)   Delay in milliseconds to wait before starting the new server after killing the previous
-        {long_desc}  (boolean)   If true the snippet description will be shown in the completion menu
-        {paths}      (string[])  Paths of the package.json files to check
-        {descs}      (string[])  List of descriptions to describe each package.json file
-        {prose}      (boolean)   If true, messages will be made describing the usage of the server and checkhealth will return the snippets for all active buffer filetypes
+        {debounce}       (integer)                 Delay in milliseconds to wait before starting the new server after killing the previous
+        {long_desc}      (boolean)                 If true the snippet description will be shown in the completion menu
+        {paths}          (string[])                Paths of the package.json files to check
+        {descs}          (string[])                List of descriptions to describe each package.json file
+        {prose}          (boolean)                 If true, messages will be made describing the usage of the server and checkhealth will return the snippets for all active buffer filetypes
+        {trigger_chars}  (table<string,string[]>)  Mapping of filetypes to trigger characters (use '*' for default).
 
 
 The default settings for yasp
 >lua
  require('yasp').setup({
+  trigger_chars = {
+    ['*'] = { '{', '(', '[', ' ', '.', ':', ',' },
+  },
   long_desc = false,
   debounce = 750,
   paths = {},
@@ -103,12 +107,14 @@ M.concat_all({paths}, {ft}, {descs})                              *M.concat_all*
         |yasp.CompTable|
 
 
-M.start_mock_lsp({completion_source})                         *M.start_mock_lsp*
+                                                              *M.start_mock_lsp*
+M.start_mock_lsp({completion_source}, {triggerChars})
     Start a mock LSP server with the given completion source. The id of the
     client may not be that useful
 
     Parameters: ~
         {completion_source}  (yasp.CompTable)  The completion source to be used by the mock
+        {triggerChars}       (string[])        The trigger characters for the completion source
 
     Returns: ~
         (integer)  The ID of the client that was started

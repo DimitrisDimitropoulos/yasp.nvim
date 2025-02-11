@@ -128,9 +128,25 @@ function M.concat_all(paths, ft, descs)
   return all_snippets
 end
 
+---Returns trigger characters for a given filetype.
+---@param trigger_map table<string, string[]> A table mapping filetypes to a list of trigger characters.
+---@param ft string|nil The filetype to lookup.
+---@return string[] The list of trigger characters corresponding to the provided filetype, or the default ("*") if filetype is nil or not found.
+local function trigChars(trigger_map, ft)
+  local chars = {}
+  if ft and trigger_map[ft] then
+    chars = trigger_map[ft]
+  else
+    chars = trigger_map['*'] or {}
+  end
+  vim.notify('Trigger characters for ' .. ft .. ': ' .. vim.inspect(chars), vim.log.levels.INFO)
+  return chars
+end
+
 ---@param completion_source yasp.CompTable The completion result to be returned by the server
+---@param triggerChars string[] The trigger characters for the completion source
 ---@return function server A function that creates a new server instance
-local function new_server(completion_source)
+local function new_server(completion_source, triggerChars)
   local function server(dispatchers)
     local closing = false
     local srv = {}
@@ -139,7 +155,7 @@ local function new_server(completion_source)
         handler(nil, {
           capabilities = {
             completionProvider = {
-              triggerCharacters = { '{', '(', '[', ' ', '.', ':', ',' },
+              triggerCharacters = triggerChars,
             },
           },
         })
@@ -168,10 +184,11 @@ end
 ---Start a mock LSP server with the given completion source. The id of the
 ---client may not be that useful
 ---@param completion_source yasp.CompTable The completion source to be used by the mock
+---@param triggerChars string[] The trigger characters for the completion source
 ---@return integer client_id The ID of the client that was started
 ---@see yasp.CompTable
-function M.start_mock_lsp(completion_source)
-  local server = new_server(completion_source)
+function M.start_mock_lsp(completion_source, triggerChars)
+  local server = new_server(completion_source, triggerChars)
   local dispatchers = {
     on_exit = function(code, signal)
       vim.notify('Server exited with code ' .. code .. ' and signal ' .. signal, vim.log.levels.ERROR)
@@ -209,7 +226,8 @@ function M.snippet_handler(paths, ft, descs)
   vim.defer_fn(function()
     if ft ~= '' then -- do not run on empty filetype causes weird behavior
       local all_snippets = M.concat_all(paths, ft, descs)
-      local client_id = M.start_mock_lsp(all_snippets)
+      local triggerChars = trigChars(require('yasp.settings').current.trigger_chars, ft)
+      local client_id = M.start_mock_lsp(all_snippets, triggerChars)
       if require('yasp.settings').current.prose then
         vim.notify('Started new sn_ls client with ' .. client_id .. ' for ' .. ft, vim.log.levels.INFO)
       end
