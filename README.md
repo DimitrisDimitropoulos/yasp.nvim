@@ -11,7 +11,7 @@ LSP/vscode/json snippets, therefore fancy lua snippets are not supported. At
 last, you must configure some basic functionality for yourself, mainly the
 `package.json` paths.
 
-![2025-02-08T17-57-48](https://github.com/user-attachments/assets/40b566b6-0fe2-4b91-b5ea-fa2cbfa8b1f0)
+![2025-02-13T23-42-14](https://github.com/user-attachments/assets/a575958e-6560-4d62-9995-20d456ca719e)
 
 
 ## ⚒️ Configuration
