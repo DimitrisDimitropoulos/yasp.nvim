@@ -139,7 +139,9 @@ local function trigChars(trigger_map, ft)
   else
     chars = trigger_map['*'] or {}
   end
-  vim.notify('Trigger characters for ' .. ft .. ': ' .. vim.inspect(chars), vim.log.levels.INFO)
+  if require('yasp.settings').current.prose then
+    vim.notify('Trigger characters for ' .. ft .. ': ' .. vim.inspect(chars), vim.log.levels.INFO)
+  end
   return chars
 end
 
