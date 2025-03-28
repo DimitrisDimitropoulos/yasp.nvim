@@ -3,7 +3,7 @@
 yasp is a simple way to manage your snippets in a completion engine agnostic
 way. Thus it enables you to use jump around completion frameworks and snippet
 engines like `mini.snippets` with ease, even native autocompletion for the
-nightly users.
+0.11 users.
 
 The plugin is designed to manage multiple snippet sources such as
 friendly-snippets and user defined. It shall be noted that yasp manages only
