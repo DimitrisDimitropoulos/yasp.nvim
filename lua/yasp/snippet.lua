@@ -212,10 +212,10 @@ end
 
 ---Create a callback to handle the destruction of the previous LSP client and
 ---the creation of a new one. Basically a wrapper for usage with autocmds
----@param paths string[] List of paths to the JSON snippet files
 ---@param ft string Filetype of the current buffer
----@param descs string[] List of descriptions for the snippet sources
-function M.snippet_handler(paths, ft, descs)
+function M.snippet_handler(ft)
+  local paths = require('yasp.settings').current.paths
+  local descs = require('yasp.settings').current.descs
   -- Stop the previous LSP client if it exists
   local client = vim.lsp.get_clients({ name = 'sn_ls' })[1]
   if client then

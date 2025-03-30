@@ -123,15 +123,12 @@ M.start_mock_lsp({completion_source}, {triggerChars})
         |yasp.CompTable|
 
 
-                                                             *M.snippet_handler*
-M.snippet_handler({paths}, {ft}, {descs})
+M.snippet_handler({ft})                                      *M.snippet_handler*
     Create a callback to handle the destruction of the previous LSP client and
     the creation of a new one. Basically a wrapper for usage with autocmds
 
     Parameters: ~
-        {paths}  (string[])  List of paths to the JSON snippet files
-        {ft}     (string)    Filetype of the current buffer
-        {descs}  (string[])  List of descriptions for the snippet sources
+        {ft}  (string)  Filetype of the current buffer
 
 
 vim:tw=78:ts=8:noet:ft=help:norl:
