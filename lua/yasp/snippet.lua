@@ -162,7 +162,9 @@ local function new_server(completion_source, triggerChars)
           },
         })
       elseif method == 'textDocument/completion' then
-        handler(nil, completion_source)
+        vim.schedule(function()
+          handler(nil, completion_source)
+        end)
       elseif method == 'shutdown' then
         handler(nil, nil)
       end
