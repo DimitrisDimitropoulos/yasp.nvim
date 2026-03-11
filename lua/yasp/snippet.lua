@@ -163,6 +163,9 @@ local function new_server(completion_source, triggerChars)
         })
       elseif method == 'textDocument/completion' then
         vim.schedule(function()
+          if closing then
+            return
+          end
           handler(nil, completion_source)
         end)
       elseif method == 'shutdown' then
@@ -201,8 +204,9 @@ function M.start_mock_lsp(completion_source, triggerChars)
   local client_id = vim.lsp.start({
     name = 'sn_ls',
     cmd = server,
-    root_dir = vim.uv.cwd(), -- not needed actually
-    on_init = function(_client)
+    root_dir = vim.uv.cwd(),
+    on_init = function(client)
+      vim.api.nvim_create_augroup('nvim.lsp.completion_' .. client.id, { clear = false })
       -- vim.notify('Snippet LSP server initialized', vim.log.levels.INFO)
     end,
     on_exit = function(_code, _signal)
