@@ -91,7 +91,7 @@ local function process_snippets(snips, desc)
       label = label,
       kind = vim.lsp.protocol.CompletionItemKind['Snippet'],
       documentation = {
-        value = insertText,
+        value = string.format('```%s\n%s\n```', vim.bo.filetype, insertText),
         kind = vim.lsp.protocol.MarkupKind.Markdown,
       },
       insertTextFormat = vim.lsp.protocol.InsertTextFormat.Snippet,
