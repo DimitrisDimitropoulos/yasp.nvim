@@ -36,6 +36,8 @@ has to specify some options in order to use it:
       -- default, global triggerChars to fire lsp completion
       -- trigger_chars = {
       --   ['*'] = { '{', '(', '[', ' ', '.', ':', ',' },
+      --   -- for native autocompletion you can use this setting for better experience:
+      --   ['*'] = { '' },
       --   -- append them per filetype in such style
       --   -- ['lua'] = { '.', ':' },
       -- },
@@ -45,6 +47,8 @@ has to specify some options in order to use it:
       paths = {
         -- for friendly-snippets installed via lazy.nvim
         vim.fn.stdpath 'data' .. '/lazy/friendly-snippets/package.json',
+        -- for vim.pack users
+        vim.fn.stdpath 'data' .. '/site/pack/core/opt/friendly-snippets/package.json',
         -- for snippets in the users config directory
         vim.fn.expand('$MYVIMRC'):match '(.*[/\\])' .. 'snippets/path/to/package.json',
       },
