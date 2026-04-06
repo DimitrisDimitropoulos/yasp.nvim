@@ -41,6 +41,9 @@ has to specify some options in order to use it:
       --   -- append them per filetype in such style
       --   -- ['lua'] = { '.', ':' },
       -- },
+      -- default, sortText for completion items
+      -- For native autocompletion, prefer "0.1" for better sorting experience
+      -- sort_text = "1.02",
 
       -- 💀 WARNING: the following must be provided by the user
       -- the paths to the package.json files, no default given, must be provided

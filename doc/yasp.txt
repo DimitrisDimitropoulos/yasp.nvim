@@ -39,11 +39,15 @@ yasp.Settings                                                    *yasp.Settings*
         {descs}          (string[])                List of descriptions to describe each package.json file
         {prose}          (boolean)                 If true, messages will be made describing the usage of the server and checkhealth will return the snippets for all active buffer filetypes
         {trigger_chars}  (table<string,string[]>)  Mapping of filetypes to trigger characters (use '*' for default).
+        {sort_text}      (string)                  The sortText value for completion items. For native autocompletion, prefer "0.1" for better sorting.
 
 
 The default settings for yasp
 >lua
  require('yasp').setup({
+  -- For native autocompletion, prefer no trigger charaters
+  -- trigger_chars = { ['*'] = { '' } },
+  -- Else the default is:
   trigger_chars = {
     ['*'] = { '{', '(', '[', ' ', '.', ':', ',' },
   },
@@ -52,6 +56,10 @@ The default settings for yasp
   paths = {},
   descs = {},
   prose = false,
+  -- sortText for snippet completion items
+  -- For native autocompletion (vim.lsp.completion), prefer "0.1" for better visibility
+  -- For completion frameworks like blink.cmp/nvim-cmp, "1.02" works well
+  sort_text = "1.02",
  })
 <
 
@@ -61,6 +69,10 @@ vim's vim.fn and not absolute paths. For example, in order to use
 friendly-snippets installed by lazy.nvim, you can use:
 >lua
  vim.fn.stdpath 'data' .. '/lazy/friendly-snippets/package.json',
+<
+For vim.pack users, you can use:
+>lua
+ vim.fn.stdpath 'data' .. '/site/pack/core/opt/friendly-snippets/package.json',
 <
 Moreover, to use snippets from the user's nvim configuration, you can use,
 something along the lines of:

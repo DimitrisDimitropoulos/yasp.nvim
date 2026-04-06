@@ -96,8 +96,8 @@ local function process_snippets(snips, desc)
       },
       insertTextFormat = vim.lsp.protocol.InsertTextFormat.Snippet,
       insertText = insertText,
-      -- fix for blink.cmp
-      sortText = tostring(1.02), -- Ensure a low score by setting a high sortText value, not sure
+      -- Ensure a low score by setting a high sortText value
+      sortText = require('yasp.settings').current.sort_text,
     })
   end
   return completion_results
