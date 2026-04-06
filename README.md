@@ -61,6 +61,44 @@ has to specify some options in order to use it:
   },
 ```
 
+For `vim.pack` users you can setup the plugin like this:
+
+```lua
+vim.pack.add { 'https://github.com/DimitrisDimitropoulos/yasp.nvim' }
+require('yasp').setup {
+  -- default, change to false for special completion frameworks
+  -- long_desc = true,
+  -- default, change to true mainly for debugging
+  -- prose = false,
+  -- default, the time to wait before starting a new server in milliseconds, highly suggested to keep it
+  -- debounce = 750,
+  -- default, global triggerChars to fire lsp completion
+  -- trigger_chars = {
+  --   ['*'] = { '{', '(', '[', ' ', '.', ':', ',' },
+  --   -- for native autocompletion you can use this setting for better experience:
+  --   ['*'] = { '' },
+  --   -- append them per filetype in such style
+  --   -- ['lua'] = { '.', ':' },
+  -- },
+  -- default, sortText for completion items
+  -- For native autocompletion, prefer "0.1" for better sorting experience
+  -- sort_text = "1.02",
+
+  -- 💀 WARNING: the following must be provided by the user
+  -- the paths to the package.json files, no default given, must be provided
+  paths = {
+    -- for friendly-snippets installed via lazy.nvim
+    vim.fn.stdpath 'data' .. '/lazy/friendly-snippets/package.json',
+    -- for vim.pack users
+    vim.fn.stdpath 'data' .. '/site/pack/core/opt/friendly-snippets/package.json',
+    -- for snippets in the users config directory
+    vim.fn.expand('$MYVIMRC'):match '(.*[/\\])' .. 'snippets/path/to/package.json',
+  },
+  -- the accompanying descriptions for the paths, no default given, must be provided
+  descs = { 'FR', 'USR' },
+}
+```
+
 For other plugin managers you can setup and initiate the plugin via a call to:
 
 ```lua
